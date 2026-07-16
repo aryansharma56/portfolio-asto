@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  person,
+  about,
+  skills,
+  experience,
+  projects,
+  education,
+  achievements,
+} from '../data/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.name,
+  jobTitle: person.title,
+  email: `mailto:${person.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: person.location },
+  url: Astro.site?.href,
+  sameAs: [person.github, person.leetcode, person.linkedin].filter(Boolean),
+  knowsAbout: skills.flatMap((s) => s.items),
+  worksFor: {
+    '@type': 'Organization',
+    name: experience[0]?.company,
+  },
+};
+
+const description = `${person.name} — ${person.title} in ${person.location}. ${person.tagline}`;
+---
+
+<Base title={`${person.name} — ${person.title}`} description={description} jsonLd={jsonLd}>
+  <section class="hero" aria-labelledby="intro">
+    <p class="role">{person.title} · {person.location}</p>
+    <h1 id="intro">{person.name}</h1>
+    <p class="tagline">{person.tagline}</p>
+    <div class="links">
+      <a href={`mailto:${person.email}`}>{person.email}</a>
+      <a href={person.github}>GitHub</a>
+      <a href={person.leetcode}>LeetCode</a>
+      <a href={person.resume}>Résumé (PDF)</a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="about">
+    <h2 id="about">About</h2>
+    {about.map((para) => <p>{para}</p>)}
+  </section>
+
+  <section class="section" aria-labelledby="skills">
+    <h2 id="skills">Skills</h2>
+    {skills.map((group) => (
+      <div class="skill-row">
+        <span class="label">{group.label}</span>
+        <div class="tags">
+          {group.items.map((item) => <span class="tag">{item}</span>)}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="section" aria-labelledby="experience">
+    <h2 id="experience">Experience</h2>
+    {experience.map((job) => (
+      <article class="entry">
+        <div class="entry-head">
+          <h3>{job.role} <span class="company">· {job.company}</span></h3>
+          <span class="period">{job.period}</span>
+        </div>
+        <ul>
+          {job.highlights.map((h) => <li>{h}</li>)}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="section" aria-labelledby="projects">
+    <h2 id="projects">Projects</h2>
+    {projects.map((project) => (
+      <article class="entry">
+        <div class="entry-head">
+          <h3>{project.link ? <a href={project.link}>{project.name}</a> : project.name}</h3>
+          <span class="period">{project.year}</span>
+        </div>
+        {project.description.map((d) => <p>{d}</p>)}
+        <div class="tags">
+          {project.stack.map((s) => <span class="tag">{s}</span>)}
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="section" aria-labelledby="education">
+    <h2 id="education">Education</h2>
+    {education.map((e) => (
+      <article class="entry">
+        <div class="entry-head">
+          <h3>{e.degree} <span class="company">· {e.school}</span></h3>
+          <span class="period">{e.period}</span>
+        </div>
+        <p class="muted">{e.detail}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="section" aria-labelledby="achievements">
+    <h2 id="achievements">Achievements & Certifications</h2>
+    <ul>
+      {achievements.map((a) => <li>{a}</li>)}
+    </ul>
+  </section>
+</Base>
