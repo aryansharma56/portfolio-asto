@@ -11,10 +11,10 @@ export const person = {
   location: 'Mumbai, India',
   email: 'aryansharma5669@gmail.com',
   // Update these with your real profile URLs
-  github: 'https://github.com/',
-  leetcode: 'https://leetcode.com/',
-  linkedin: '',
-  resume: '/resume.pdf',
+  github: 'https://github.com/aryansharma56',
+  leetcode: 'https://leetcode.com/aryans56',
+  linkedin: 'https://www.linkedin.com/in/aryan-sharma-53652020a/',
+  resume: 'https://drive.google.com/file/d/1JcIK8ZmaZdrUEURivV-LYWRzNqPodStc/view?usp=sharing',
 };
 
 export const about = [
